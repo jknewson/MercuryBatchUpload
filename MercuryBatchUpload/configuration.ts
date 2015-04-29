@@ -58,7 +58,7 @@ define(['knockout',
             function validate(value, param) {
                 var warn: boolean = false;
                 var msg: string = '';
-                if (value == null || value == '') {
+                if (value === null || value === '') {
                     warn = true;
                     msg = "Item Cannot be null";
                     toastr.error(msg);

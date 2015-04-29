@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -34,19 +34,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
     <TypeScriptCompile Include="configuration.ts" />
-    <Content Include="Models\Messaging\Notification.js" />
-    <Content Include="Models\Utilities\ServiceAgent\AuthenticationAgent.js" />
-    <Content Include="Models\Utilities\ServiceAgent\MercuryServiceAgent.js" />
-    <Content Include="Models\Utilities\ServiceAgent\RequestInfo.js" />
-    <Content Include="Models\Utilities\ServiceAgent\ServiceAgent.js" />
-    <Content Include="Models\Utilities\XLSXOps\XLSXReader.js" />
-    <Content Include="Models\vos\Bottle.js" />
-    <Content Include="Models\vos\Constituent.js" />
-    <Content Include="Models\vos\Interfaces.js" />
-    <Content Include="Models\vos\Method.js" />
-    <Content Include="Models\vos\Result.js" />
-    <Content Include="Models\vos\Sample.js" />
-    <Content Include="Models\vos\UnitType.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -55,7 +42,6 @@
     <Content Include="packages.config" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
-    <Content Include="Models\Utilities\ServiceAgent\AuthenticationAgent.js.map" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -135,8 +121,6 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
-    <Content Include="ViewModels\AuthenticationViewModel.js" />
-    <Content Include="ViewModels\MainViewModel.js" />
     <Content Include="web.config" />
     <Content Include="web.config.js" />
     <TypeScriptCompile Include="Models\Messaging\LogEntry.ts" />
@@ -174,21 +158,7 @@
     <TypeScriptCompile Include="ViewModels\MainViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\Messaging\Notification.js.map" />
-    <Content Include="Models\Utilities\ServiceAgent\MercuryServiceAgent.js.map" />
-    <Content Include="Models\Utilities\ServiceAgent\RequestInfo.js.map" />
-    <Content Include="Models\Utilities\ServiceAgent\ServiceAgent.js.map" />
-    <Content Include="Models\Utilities\XLSXOps\XLSXReader.js.map" />
-    <Content Include="Models\vos\Bottle.js.map" />
-    <Content Include="Models\vos\Constituent.js.map" />
-    <Content Include="Models\vos\Interfaces.js.map" />
-    <Content Include="Models\vos\Method.js.map" />
-    <Content Include="Models\vos\Result.js.map" />
-    <Content Include="Models\vos\Sample.js.map" />
-    <Content Include="Models\vos\UnitType.js.map" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
-    <Content Include="ViewModels\MainViewModel.js.map" />
-    <Content Include="ViewModels\AuthenticationViewModel.js.map" />
     <None Include="ToFile.pubxml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

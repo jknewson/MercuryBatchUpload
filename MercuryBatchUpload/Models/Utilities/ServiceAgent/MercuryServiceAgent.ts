@@ -193,8 +193,8 @@ class MercuryServiceAgent extends ServiceAgent {
             var cmethods: Array<IMethod> = this.GetConstituentMethodList(c.id)
             var m: IMethod = element.hasOwnProperty(this.sheetDirectory["Method Code *"]) ? this.getMethodByCode(cmethods, String(element[this.sheetDirectory["Method Code *"]])) : null;
             var dt:Date = element.hasOwnProperty(this.sheetDirectory["Date of Analysis *"]) ? this.getExcelDate(Number(element[this.sheetDirectory["Date of Analysis *"]])) : new Date();
-            var vFinal:number = element.hasOwnProperty(this.sheetDirectory["Reported Value *"]) ? Number(element[this.sheetDirectory["Reported Value *"]]) : -999;
-            var ddl: number = element.hasOwnProperty(this.sheetDirectory["Detection Limit"]) ? Number(element[this.sheetDirectory["Detection Limit"]]) : -999;
+            var vFinal:number = element.hasOwnProperty(this.sheetDirectory["Reported Value *"]) ? Number(element[this.sheetDirectory["Reported Value *"]]) : null;
+            var ddl: number = element.hasOwnProperty(this.sheetDirectory["Detection Limit"]) ? Number(element[this.sheetDirectory["Detection Limit"]]) : null;
             var comment:string = element.hasOwnProperty(this.sheetDirectory["Analysis Comments"]) ? String(element[this.sheetDirectory["Analysis Comments"]]) : "";
             var u:IUnitType = element.hasOwnProperty(this.sheetDirectory["Value Units *"]) ? this.getUnitTypeByName(element[this.sheetDirectory["Value Units *"]]) : null;
             var qa: Array<IQualityAssuranceType> = element.hasOwnProperty(this.sheetDirectory["Quality Assurance"]) ? this.getQualityAssuranceList(element[this.sheetDirectory["Quality Assurance"]]) : [];;
