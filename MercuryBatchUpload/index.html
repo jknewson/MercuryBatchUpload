@@ -56,7 +56,7 @@
                     </div>
                 </section>
                 <section id="validatePanel" style="display:flex" class="column" data-bind="fadeVisible:(SelectedProcedure()===2 || SelectedProcedure() ===3)">
-                    <ul data-bind="template:{name: 'SampleListView', foreach: SampleList}"></ul>
+                    <ul class="sampleList" data-bind="template:{name: 'SampleListView', foreach: SampleList}"></ul>
                     <div class="sample col-sm-6" data-bind="template:{name:'SampleView', if:SelectedSample, data:SelectedSample}"></div>
                     <div class="sample col-sm-6" data-bind="template:{name:'ResultView', if:SelectedSample, data:SelectedSample}"></div>
                 </section>
