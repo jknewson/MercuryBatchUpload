@@ -231,7 +231,7 @@ define(['knockout',
 
             //validate whenever the value changes
             target.subscribe(validate);
-            target.Constituent.subscribe(validate);
+            target.Method.subscribe(validate);
             //return the original observable
             return target;
         }
