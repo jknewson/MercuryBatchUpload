@@ -1,3 +1,5 @@
+//represents samplebottles
+
 /// <reference path="interfaces.ts" />
 import Project = require("../vos/Project");
 import Site = require("../vos/Site");
@@ -7,7 +9,7 @@ class Sample implements ISample, ISerializable {
     //Properties
     public id: number;
     public sample: number;
-    public bottle:IBottle;
+    public bottle: IBottle;
     public filter_type: number;
     public volume_filtered: number;
     public preservation_type: number;
@@ -49,12 +51,13 @@ class Sample implements ISample, ISerializable {
 
     //Methods
     public LoadSamplingInfo(json: Object) {
-        if (json.hasOwnProperty("project"))  this.project=Project.Deserialize(json["project"]);
-        if (json.hasOwnProperty("site")) this.site=Site.Deserialize(json["site"]);
+        this.project.name =json.hasOwnProperty("project_string")?  json["project_string"]:"---";
+        this.site.name = json.hasOwnProperty("site_string") ? json["site_string"] : "---";
+        this.site.usgs_sid = json.hasOwnProperty("site_usgs_scode") ? json["site_usgs_scode"] : "---";
 
         this.depth = json.hasOwnProperty("depth")? json["depth"]:-999;
         this.length = json.hasOwnProperty("length") ? json["length"] :-999;
-        this.mediumType = json.hasOwnProperty("medium_type") ? json["medium_type"] : '---';
+        this.mediumType = json.hasOwnProperty("medium_type_string") ? json["medium_type_string"] : '---';
         this.sampling_date = json.hasOwnProperty("sample_date") ? json["sample_date"] :'---';
         this.sampling_time = json.hasOwnProperty("sample_time") ? json["sample_time"] :'---';
     }

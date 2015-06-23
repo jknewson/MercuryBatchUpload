@@ -11,10 +11,12 @@ interface IBottle {
     //Bottle Parameters
     id: number;
     bottle_unique_name: string;
-    created_date: string;
     description: string;
     tare_weight: number;
-    bottle_type: number;
+    bottle_type_string: string;
+    created_date: string;
+    bottle_prefix: number;
+    bottle_prefix_string: string;
 }
 interface IConstituent {
     id: number;
@@ -63,6 +65,7 @@ interface IResult {
     qualityAssuranceList: KnockoutObservableArray<IQualityAssuranceType>;
     isotope_flag: KnockoutObservable<IIsotopeFlag>;
     ToSimpleResult(bottleID: string): Object
+    massProcess: KnockoutObservable<number>;
 }
 interface ISample {
     id:number;

@@ -2,7 +2,7 @@
 ///<reference path="Scripts/typings/knockout/knockout.d.ts" />
 ///<reference path="Scripts/typings/knockout/myknockout.d.ts" />
 
-
+declare var configuration: any;
 require.config({
     // Base URL for scripts is the 'js' folder
     baseUrl: "",
@@ -177,9 +177,9 @@ define(['knockout',
                 else{
                     var detectionFlag: string = ''
 
-                    if (target().unit !== target.Method().final_value_unit) {
+                    if (target().unit !== target.Method().raw_value_unit_string) {
                         warn = true;
-                        msg = "Unit does not match method unit: " + target.Method().final_value_unit;
+                        msg = "Unit does not match method unit: " + target.Method().raw_value_unit_string;
                     }
                 }
 
@@ -195,7 +195,46 @@ define(['knockout',
             //return the original observable
             return target;
         }
+        ko.extenders.massProcessValidation = function (target, option) {
+            //add some sub-observables to our observable
+            target.hasWarning = ko.observable();
+            target.validationMessage = ko.observable();
+            target.show = ko.observable();
+            target.Method = option.method;
 
+            //define a function to do validation
+            function validate() {
+                var warn: boolean = false;
+                var msg: string = '';
+                var show: boolean = false;
+                //check if the selected constituent.id is included in the inclusion list located in web.config.js
+                if (configuration.massProcessMethodIDs.indexOf(target.Method().id) > -1) {
+                    show = true;                
+                    if (target.Method() == null) {
+                        warn = true;
+                        msg = "Warning: Choose a Method";
+                    }
+                    else {
+                        if (target() == null) {
+                            warn = true;
+                            msg = "Item Cannot be null";
+                        }//endif
+                    }//endif
+                }//endif                
+
+                target.hasWarning(warn);
+                target.validationMessage(msg);
+                target.show(show);
+            }
+            //initial validation
+            validate();
+
+            //validate whenever the value changes
+            target.subscribe(validate);
+            target.Constituent.subscribe(validate);
+            //return the original observable
+            return target;
+        }
         ko.bindingHandlers.fadeVisible = {
             init: function (element, valueAccessor) {
                 // Initially set the element to be instantly visible/hidden depending on the value

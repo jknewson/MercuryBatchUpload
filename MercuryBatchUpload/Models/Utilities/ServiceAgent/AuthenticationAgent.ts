@@ -49,7 +49,7 @@ class AuthenticationAgent extends ServiceAgent {
     public GetTokenAuthentication(): string {
         var json: Object
         var token = '';
-        this.Execute(new RequestInfo("/login", false, "POST", this.user.ToJSON(), "json"), x=> json = x, this.HandleOnError); 
+        this.Execute(new RequestInfo("/login/", false, "POST", this.user.ToJSON(), "json"), x=> json = x, this.HandleOnError); 
         token = json.hasOwnProperty("auth_token") ? json["auth_token"] : "";
         return token;
     }

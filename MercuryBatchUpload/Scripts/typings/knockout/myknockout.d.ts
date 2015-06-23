@@ -14,4 +14,5 @@ interface KnockoutExtenders {
     validPassword(target: any, option: any): KnockoutObservable<any>;
     detectionLimitValidation(target: any, option: any): KnockoutObservable<any>;
     unitValidation(target: any, option: any): KnockoutObservable<any>;
+    massProcessValidation(target: any, option: any): KnockoutObservable<any>;
 }

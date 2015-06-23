@@ -168,13 +168,13 @@ class MercuryServiceAgent extends ServiceAgent {
             //get bottle info
             bottle = new Bottle();
             this.Execute(new RequestInfo("/bottles/?bottle_unique_name=" + bottleID, false), x=> bottle.Deserialize(x), this.HandleOnError);
-            if (bottle.bottle_prefix != null)
-                this.Execute(new RequestInfo("/bottleprefixes/?bottle_prefix=" + bottle.bottle_prefix, false), x=> bottle.LoadDeserializePrefix(x), this.HandleOnError);
+            if (bottle.bottle_prefix_string != null)
+                this.Execute(new RequestInfo("/bottleprefixes/?bottle_prefix=" + bottle.bottle_prefix_string, false), x=> bottle.LoadDeserializePrefix(x), this.HandleOnError);
                 
             if (bottle.HasError) throw new Error("Failed to read bottle: " + bottleID +" .... Sample not included.");            
             //get sample info
             sample = new Sample();
-            this.Execute(new RequestInfo("/samplebottles/?bottle=" + bottleID), x=> this.loadSample(sample,x) , this.HandleOnError);
+            this.Execute(new RequestInfo("/samplebottles/?bottle=" + bottle.id), x=> this.loadSample(sample,x) , this.HandleOnError);
             sample.bottle= bottle;
             //load result
             sample.Result(this.loadResult(element));
@@ -193,14 +193,15 @@ class MercuryServiceAgent extends ServiceAgent {
             var cmethods: Array<IMethod> = this.GetConstituentMethodList(c.id)
             var m: IMethod = element.hasOwnProperty(this.sheetDirectory["Method Code *"]) ? this.getMethodByCode(cmethods, String(element[this.sheetDirectory["Method Code *"]])) : null;
             var dt:Date = element.hasOwnProperty(this.sheetDirectory["Date of Analysis *"]) ? this.getExcelDate(Number(element[this.sheetDirectory["Date of Analysis *"]])) : new Date();
-            var vFinal:number = element.hasOwnProperty(this.sheetDirectory["Reported Value *"]) ? Number(element[this.sheetDirectory["Reported Value *"]]) : null;
+            var vFinal:number = element.hasOwnProperty(this.sheetDirectory["Raw Value *"]) ? Number(element[this.sheetDirectory["Raw Value *"]]) : null;
             var ddl: number = element.hasOwnProperty(this.sheetDirectory["Detection Limit"]) ? Number(element[this.sheetDirectory["Detection Limit"]]) : null;
+            var mp: number = element.hasOwnProperty(this.sheetDirectory["Sample Mass Process"]) ? Number(element[this.sheetDirectory["Sample Mass Process"]]) : null;
             var comment:string = element.hasOwnProperty(this.sheetDirectory["Analysis Comments"]) ? String(element[this.sheetDirectory["Analysis Comments"]]) : "";
-            var u:IUnitType = element.hasOwnProperty(this.sheetDirectory["Value Units *"]) ? this.getUnitTypeByName(element[this.sheetDirectory["Value Units *"]]) : null;
+            var u:IUnitType = element.hasOwnProperty(this.sheetDirectory["Raw Value Units *"]) ? this.getUnitTypeByName(element[this.sheetDirectory["Raw Value Units *"]]) : null;
             var qa: Array<IQualityAssuranceType> = element.hasOwnProperty(this.sheetDirectory["Quality Assurance"]) ? this.getQualityAssuranceList(element[this.sheetDirectory["Quality Assurance"]]) : [];;
             var i: IIsotopeFlag = element.hasOwnProperty(this.sheetDirectory["Isotope Flag *"]) ? this.getIsotopeByName(String(element[this.sheetDirectory["Isotope Flag *"]])) : null;
 
-            var result: IResult = new Result(c, m, u, vFinal, ddl, dt, comment, i, qa, cmethods);
+            var result: IResult = new Result(c, m, u, vFinal, ddl,mp, dt, comment, i, qa, cmethods);
             return result;
         }
         catch (e) {
@@ -284,10 +285,13 @@ class MercuryServiceAgent extends ServiceAgent {
 
     private HandleSubmitComplete(successObj: Array<any>) {
         this.sm("submitting results completed", MSG.NotificationType.SUCCESS, false);
+        var msg: string = ""
+        var success: boolean = false;
         //do something with the results
-
-        for (var i = 0; i < successObj.length; i++) {
-            this.sm(successObj[i].message, successObj[i].sucess?MSG.NotificationType.SUCCESS:MSG.NotificationType.ERROR)
+        for (var i = 0; i < successObj.length; i++) {  
+            msg = successObj[i].hasOwnProperty("message") ? successObj[i].message : "no message";
+            success = successObj[i].hasOwnProperty("success") ? successObj[i].success : false;                   
+            this.sm(msg, success?MSG.NotificationType.SUCCESS:MSG.NotificationType.ERROR)
         }
 
         this.onSubmitComplete.raise(this, EventArgs.Empty);

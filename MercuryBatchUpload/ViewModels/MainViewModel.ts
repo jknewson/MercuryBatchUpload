@@ -70,10 +70,13 @@ export class MainViewModel {
 
     public AllowDrop: KnockoutObservable<boolean>;
     public IsLoading: KnockoutObservable<boolean>;
+    public CanToggle: KnockoutObservable<boolean>;
     public NotificationList: KnockoutObservableArray<LogEntry>; 
 
     public Authorization: AuthenticationVM;  
     public QAViewModel: QAViewModel;
+
+
 
     //Constructor
     //-+-+-+-+-+-+-+-+-+-+-+-
@@ -138,8 +141,7 @@ export class MainViewModel {
     }
     public AddQAToSelectedSample: () => void;
     public ShowQAPopup: () => void;
-
-  
+    
     public SelectPreviousSample() {
         var index = this.SampleList.indexOf(this.SelectedSample()) - 1
         if (index < 0) index = 0;
@@ -150,7 +152,10 @@ export class MainViewModel {
         if (index >= this.SampleList().length) index = 0;
         this.SelectedSample(this.SampleList()[index]);
     }
-
+    public Toggle() {
+        if (!this.CanToggle()) return;
+        $("#wrapper").toggleClass("toggled");
+    }
     //Helper Methods
     //-+-+-+-+-+-+-+-+-+-+-+-
     private init() {
@@ -166,6 +171,7 @@ export class MainViewModel {
         this.Authorization = new AuthenticationVM();
         this.QAViewModel = new QAViewModel();
         this.isInit = false;
+        this.CanToggle = ko.observable(false);
         this.SelectedSample = ko.observable(null);
         this.SelectedProcedure = ko.observable(ProcedureType.IMPORT);
         this.AllowDrop = (Modernizr.draganddrop) ? ko.observable(true) : ko.observable(false);
@@ -195,8 +201,10 @@ export class MainViewModel {
                 this._onAuthenticatedHandler = new EventHandler<EventArgs>((sender: any) => {
                     this.onAuthenticated(sender);
                 });
+                
                 this.Authorization.onAuthenticated.subscribe(this._onAuthenticatedHandler);
                 this.SetProcedureType(ProcedureType.VALIDATE);
+                this.CanToggle(true);
                 this.sm(new MSG.NotificationArgs("File successfully loaded", MSG.NotificationType.SUCCESS, 0, false));
                 this.sm(new MSG.NotificationArgs("Validate samples, then submit."));
                 this.unSubscribeToEvents();

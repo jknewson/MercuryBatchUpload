@@ -13,6 +13,7 @@ class Result implements IResult {
     public analysis_comment: KnockoutObservable<string>;
     public qualityAssuranceList: KnockoutObservableArray<IQualityAssuranceType>;
     public isotope_flag: KnockoutObservable<IIsotopeFlag>;
+    public massProcess: KnockoutObservable<number>;
 
     public HasErrors: KnockoutComputed<boolean>;  
     public constituentMethods: KnockoutObservableArray<IMethod>;
@@ -20,7 +21,7 @@ class Result implements IResult {
 
     // Constructor
     public constructor(c: IConstituent, m: IMethod, u: IUnitType, vFinal: number,
-        ddl: number, dt: Date, comment: string, i:IIsotopeFlag, qa: Array<IQualityAssuranceType>, cmethods: Array<IMethod>) {
+        ddl: number,mp:number, dt: Date, comment: string, i:IIsotopeFlag, qa: Array<IQualityAssuranceType>, cmethods: Array<IMethod>) {
         this.id = -999;
         this.constituent = ko.observable(c).extend({ nullValidation: {} });
         this.method = ko.observable(m).extend({ nullValidation: {} });
@@ -29,6 +30,7 @@ class Result implements IResult {
 
         this.daily_detection_limit = ko.observable(ddl).extend({ nullValidation: {} });
         this.unit = ko.observable(u).extend({ unitValidation: { method: this.method } });
+        this.massProcess = ko.observable(mp).extend({ massProcessValidation: { method: this.method } });
         
         this.analyzed_date = ko.observable(dt).extend({ nullValidation: {} });
         this.analysis_comment = ko.observable(comment);
@@ -50,8 +52,9 @@ class Result implements IResult {
                 var r: boolean = (<any>this.reported_value).hasWarning();
                 var d: boolean = (<any>this.daily_detection_limit).hasWarning();
                 var i: boolean = (<any>this.isotope_flag).hasWarning();
+                var mp: boolean = (<any>this.massProcess).hasWarning();
 
-                return c || m || u || r || i;
+                return c || m || u || r || i || mp;
             }
         })
     }
