@@ -290,7 +290,7 @@ class MercuryServiceAgent extends ServiceAgent {
         //do something with the results
         for (var i = 0; i < successObj.length; i++) {  
             msg = successObj[i].hasOwnProperty("message") ? successObj[i].message : "";
-            success = successObj[i].hasOwnProperty("success") ? Boolean(successObj[i].success) : false;                   
+            success = successObj[i].hasOwnProperty("success") ? successObj[i].success.toString().toLowerCase() === "true" : false;                   
             this.sm(msg, success?MSG.NotificationType.SUCCESS:MSG.NotificationType.ERROR)
         }
 
