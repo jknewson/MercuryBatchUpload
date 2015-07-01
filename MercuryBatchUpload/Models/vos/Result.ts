@@ -46,15 +46,20 @@ class Result implements IResult {
         this.HasErrors = ko.computed({
             owner: this,
             read: () => {  
-                var c: boolean = (<any>this.constituent).hasWarning();
-                var m: boolean = (<any>this.method).hasWarning();
-                var u: boolean = (<any>this.unit).hasWarning();
-                var r: boolean = (<any>this.reported_value).hasWarning();
-                var d: boolean = (<any>this.daily_detection_limit).hasWarning();
-                var i: boolean = (<any>this.isotope_flag).hasWarning();
-                var mp: boolean = (<any>this.massProcess).hasWarning();
+                try {
+                    var c: boolean = (<any>this.constituent).hasWarning();
+                    var m: boolean = (<any>this.method).hasWarning();
+                    var u: boolean = (<any>this.unit).hasWarning();
+                    var r: boolean = (<any>this.reported_value).hasWarning();
+                    var d: boolean = (<any>this.daily_detection_limit).hasWarning();
+                    var i: boolean = (<any>this.isotope_flag).hasWarning();
+                    var mp: boolean = (<any>this.massProcess).hasWarning();
 
-                return c || m || u || r || i || mp;
+                    return c || m || u || r || i || mp;
+                }
+                catch (e){
+                    return true;
+                }
             }
         })
     }
