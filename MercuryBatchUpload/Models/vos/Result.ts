@@ -28,7 +28,7 @@ class Result implements IResult {
         this.reported_value = ko.observable(vFinal).extend({ nullValidation: {} });
         this.isotope_flag = ko.observable(i).extend({ nullValidation: {} });
 
-        this.daily_detection_limit = ko.observable(ddl).extend({ nullValidation: {} });
+        this.daily_detection_limit = ko.observable(ddl).extend({ nullValidation: {msg:"Are you sure you do not want to specify a detection limit?"} });
         this.unit = ko.observable(u).extend({ unitValidation: { method: this.method } });
         this.massProcess = ko.observable(mp).extend({ massProcessValidation: { method: this.method } });
         
@@ -51,11 +51,11 @@ class Result implements IResult {
                     var m: boolean = (<any>this.method).hasWarning();
                     var u: boolean = (<any>this.unit).hasWarning();
                     var r: boolean = (<any>this.reported_value).hasWarning();
-                    var d: boolean = (<any>this.daily_detection_limit).hasWarning();
                     var i: boolean = (<any>this.isotope_flag).hasWarning();
                     var mp: boolean = (<any>this.massProcess).hasWarning();
+                    var ad: boolean = (<any>this.analyzed_date).hasWarning();
 
-                    return c || m || u || r || i || mp;
+                    return c || m || u || r || i || mp || ad;
                 }
                 catch (e){
                     return true;
