@@ -70,7 +70,7 @@ class Result implements IResult {
     }
     //Helper methods
     private Replacer(bottleID:String): Object {
-        return {
+        var result = {
             "bottle_unique_name": bottleID,
             "constituent": this.constituent().constituent,
             "method_id": this.method().id,
@@ -79,9 +79,12 @@ class Result implements IResult {
             "analyzed_date": (this.analyzed_date().getMonth() + 1) + '/' + this.analyzed_date().getDate() + '/' + this.analyzed_date().getFullYear(),
             "daily_detection_limit": this.daily_detection_limit,
             "quality_assurance": $.map(this.qualityAssuranceList(), (obj) => {return obj.quality_assurance }),
-            "analysis_comment": this.analysis_comment
+            "analysis_comment": this.analysis_comment,
+            "sample_mass_processed":this.massProcess()
         };
+        if (result.sample_mass_processed == null) delete result.sample_mass_processed;
 
+        return result;
     }
 
 }

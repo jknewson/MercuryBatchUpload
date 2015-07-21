@@ -285,14 +285,16 @@ class MercuryServiceAgent extends ServiceAgent {
 
     private HandleSubmitComplete(successObj: Array<any>) {
         this.sm("submitting results completed", MSG.NotificationType.SUCCESS, false);
-        var msg: string = ""
+        var msg: string = "";
         var success: boolean = false;
+        var btlName: string = "";
         //do something with the results
         for (var i = 0; i < successObj.length; i++) {  
             msg = successObj[i].hasOwnProperty("message") ? successObj[i].message : "";
-            success = successObj[i].hasOwnProperty("success") ? successObj[i].success.toString().toLowerCase() === "true" : false;                   
-            this.sm(msg, success?MSG.NotificationType.SUCCESS:MSG.NotificationType.ERROR)
-        }
+            success = successObj[i].hasOwnProperty("success") ? successObj[i].success.toString().toLowerCase() === "true" : false; 
+            btlName = successObj[i].hasOwnProperty("bottle_unique_name") ? successObj[i].bottle_unique_name : "unspecified";                   
+            this.sm(btlName + ": " + msg, success?MSG.NotificationType.SUCCESS:MSG.NotificationType.ERROR)
+        }//next
 
         this.onSubmitComplete.raise(this, EventArgs.Empty);
     }
@@ -300,8 +302,7 @@ class MercuryServiceAgent extends ServiceAgent {
         this.sm("Failed submitting the results. Error status: "+ err.status, MSG.NotificationType.ERROR, false);
         this.onSubmitComplete.raise(this, EventArgs.Empty);
     }
-    private sm(msg:string, notif:MSG.NotificationType = 0, toggleAction:boolean = undefined) {
-        
+    private sm(msg:string, notif:MSG.NotificationType = 0, toggleAction:boolean = undefined) {        
         this.onMsg.raise(this, new MSG.NotificationArgs(msg, notif, 0.1, toggleAction));
     }
 
