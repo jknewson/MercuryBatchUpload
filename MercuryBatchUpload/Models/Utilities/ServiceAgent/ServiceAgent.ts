@@ -30,7 +30,7 @@ class ServiceAgent {
         });
     }
     public SetTokenAuthentication(token: string) {
-        this.authentication = "token " + token;
+        this.authentication = token;
     }
 
     public TransformDictionary(item: { [index: string]: string }): { [index: string]: string } {

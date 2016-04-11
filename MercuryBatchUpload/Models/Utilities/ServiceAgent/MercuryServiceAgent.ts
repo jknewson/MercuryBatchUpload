@@ -153,7 +153,7 @@ class MercuryServiceAgent extends ServiceAgent {
             this.sm(e.message, MSG.NotificationType.ERROR, false);
         }
         finally {
-            delete reader;
+            reader = null;
             this._onLoadComplete.raise(this, EventArgs.Empty);
         }
     }

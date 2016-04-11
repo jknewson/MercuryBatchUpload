@@ -211,7 +211,7 @@ export class MainViewModel {
             }
         }
         finally {
-            delete agent;
+            agent = null;
         }
     }
     private canUpdateProceedure(pType: ProcedureType): boolean {
@@ -264,7 +264,7 @@ export class MainViewModel {
         var token: string = '';
         try {
             
-            token = agent.AuthenticationToken()
+            token = agent.AuthenticationString()
             if (token == '' || token == undefined || token == null) throw new Error("Invalid token");
             this.mAgent.SetTokenAuthentication(token)
             this.submitSampleResults()
@@ -273,7 +273,7 @@ export class MainViewModel {
 
         }
         finally {
-            delete agent;
+            agent = null;
         }
     }
     private submitSampleResults() {

@@ -39,7 +39,7 @@ class AuthenticationAgent extends ServiceAgent {
     private user: User;
     // Constructor
     constructor(user:User) {
-        super(configuration.appSettings['MercuryAuth']);
+        super(configuration.appSettings['MercuryService']);
 
         this.user = user;
         this.init();
@@ -51,7 +51,16 @@ class AuthenticationAgent extends ServiceAgent {
         var token = '';
         this.Execute(new RequestInfo("/login/", false, "POST", this.user.ToJSON(), "json"), x=> json = x, this.HandleOnError); 
         token = json.hasOwnProperty("auth_token") ? json["auth_token"] : "";
-        return token;
+        return "token "+token;
+    }
+    public GetBasicAuthentication(): string {
+        var json: Object
+        var bscAuth: string = "Basic " + btoa(this.user.UserName + ':' + this.user.Password);
+        this.SetTokenAuthentication(bscAuth);
+        this.Execute(new RequestInfo("/users/?username=" + this.user.UserName, false), x=> json = x, this.HandleOnError);
+        this.SetTokenAuthentication("");
+        var result = json.hasOwnProperty("auth_token") ? bscAuth : "";
+        return result = bscAuth;
     }
 
     //Helper Methods

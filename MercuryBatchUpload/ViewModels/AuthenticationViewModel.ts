@@ -43,14 +43,14 @@ class AuthenticationViewModel {
     //-+-+-+-+-+-+-+-+-+-+-+- 
     public ShowLogin: KnockoutObservable<boolean>;
     public User: User;
-    public AuthenticationToken: KnockoutObservable<string>; 
+    public AuthenticationString: KnockoutObservable<string>; 
     public LoginMSG: KnockoutObservable<string>;
 
     //Constructor
     //-+-+-+-+-+-+-+-+-+-+-+-
     constructor() {
         this.User = new User()
-        this.AuthenticationToken = ko.observable(null);
+        this.AuthenticationString = ko.observable(null);
         this.ShowLogin = ko.observable(false);
         this.LoginMSG = ko.observable("");
         this.isInitialized = false;
@@ -73,9 +73,9 @@ class AuthenticationViewModel {
             if (this.User.UserName() == null || this.User.Password() == null) return;
 
             aAgent = new AuthenticationAgent(this.User);
-            tokn= aAgent.GetTokenAuthentication();
+            tokn= aAgent.GetBasicAuthentication();
             if (tokn != undefined && tokn != null && tokn != '') {
-                this.AuthenticationToken(tokn);
+                this.AuthenticationString(tokn);
                 this.ShowLogin(false);
                 this.onAuthenticated.raise(this, EventArgs.Empty);
             }
@@ -86,7 +86,7 @@ class AuthenticationViewModel {
         finally {
             this.User.Password(null);
             this.User.UserName(null);
-            delete aAgent;           
+            aAgent = null;           
         }
     }
    
