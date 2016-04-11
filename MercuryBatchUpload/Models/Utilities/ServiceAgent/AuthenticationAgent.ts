@@ -55,11 +55,11 @@ class AuthenticationAgent extends ServiceAgent {
     }
     public GetBasicAuthentication(): string {
         var json: Object
-        var bscAuth: string = "Basic " + btoa(this.user.UserName + ':' + this.user.Password);
+        var bscAuth: string = "Basic " + btoa(this.user.UserName() + ':' + this.user.Password());
         this.SetTokenAuthentication(bscAuth);
-        this.Execute(new RequestInfo("/users/?username=" + this.user.UserName, false), x=> json = x, this.HandleOnError);
+        this.Execute(new RequestInfo("/users/?username=" + this.user.UserName(), false), x=> json = x, this.HandleOnError);
         this.SetTokenAuthentication("");
-        var result = json.hasOwnProperty("auth_token") ? bscAuth : "";
+        var result = json ? bscAuth : "";
         return result = bscAuth;
     }
 
